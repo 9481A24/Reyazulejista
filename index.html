@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>perfeicao azulejista</title>
+  <title>Design Móveis Planejados</title>
   <meta name="description" content="Móveis planejados com design moderno, funcionalidade e acabamento impecável. Cozinhas, quartos, escritórios sob medida.">
   <style>
     body {
@@ -25,10 +24,27 @@
       left: 0;
       width: 100%;
       background: rgba(0, 0, 0, 0.6);
-      padding: 15px 30px;
+      padding: 15px 10px 15px 20px;
       font-size: 1.5em;
       font-weight: bold;
       z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    nav span {
+      color: white;
+    }
+
+    .menu-foto {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      margin-right: 10px; /* puxada para a esquerda */
     }
 
     main {
@@ -220,18 +236,25 @@
 </head>
 <body>
 
-  <nav>davi azulejista</nav>
+  <nav>
+    <span>Davi Azulejista</span>
+    <img src="https://raw.githubusercontent.com/9481A24/Reyazulejista/main/Cristallo%20Quartz%20-%20Cam%201_1726426959.jpg" alt="Foto Davi" class="menu-foto" />
+  </nav>
 
   <main>
     <div class="frase-impacto">
-       "Porcelanato com excelência: qualidade máxima, acabamento perfeito e preço justo como em qualquer outro lugar".
+      Somos especialistas <br>
+      Fazemos perfeição <br>
+      E preço é mesmo <br>
+      Que pagaria <br>
+      Em outro lugar
     </div>
 
     <h1>Nossos Serviços</h1>
     <ul>
-      <li>iluminacao</li>
-      <li>pedreiro</li>
-      <li>eletricista</li>
+      <li>Cozinhas Planejadas</li>
+      <li>Armários Sob Medida</li>
+      <li>Home Offices Personalizados</li>
       <li>Closets e Painéis</li>
     </ul>
 
@@ -274,7 +297,7 @@
 
   <!-- Rodapé com CNPJ -->
   <footer class="rodape">
-    CNPJ:  59.711.008/0001-09 Deus Fiel
+    CNPJ: 31.725.749/0001-00  Deus Fiel
   </footer>
 
 </body>
