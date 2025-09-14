@@ -109,33 +109,36 @@
       transform: scale(1.02);
     }
 
+    /* Carrossel de comentários */
     .comentarios-container {
       max-width: 700px;
-      margin: 0 auto 80px;
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      padding: 0 10px;
+      margin: 40px auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
     }
 
     .comentario {
       opacity: 0;
-      transform: translateY(30px) scale(0.95);
-      animation: entradaComentario 1.5s ease forwards;
-      background-color: rgba(255, 255, 255, 0.12);
+      transform: translateX(100%);
+      transition: all 0.6s ease;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(255,255,255,0.12);
       padding: 20px 25px;
       border-left: 5px solid #25D366;
-      border-radius: 8px;
       color: #fff;
-      text-align: left;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       font-size: 1.3em;
-      position: relative;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
     }
 
-    .comentario:nth-child(1) { animation-delay: 0s; }
-    .comentario:nth-child(2) { animation-delay: 1.2s; }
-    .comentario:nth-child(3) { animation-delay: 2.4s; }
+    .comentario.ativo {
+      opacity: 1;
+      transform: translateX(0);
+      position: relative;
+    }
 
     .cliente-info {
       margin-top: 12px;
@@ -157,13 +160,25 @@
       color: #128C7E;
     }
 
-    @keyframes entradaComentario {
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 2em;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 10;
     }
 
+    .slide-btn.prev { left: 10px; }
+    .slide-btn.next { right: 10px; }
+    .slide-btn:hover { background-color: rgba(0,0,0,0.8); }
+
+    /* Botão WhatsApp com efeito onda */
     .whatsapp-btn {
       position: fixed;
       bottom: 30px;
@@ -197,19 +212,11 @@
       box-sizing: border-box;
     }
 
-    .whatsapp-btn::after {
-      animation-delay: 1.25s;
-    }
+    .whatsapp-btn::after { animation-delay: 1.25s; }
 
     @keyframes pulse {
-      0% {
-        transform: scale(1);
-        opacity: 0.7;
-      }
-      100% {
-        transform: scale(1.8);
-        opacity: 0;
-      }
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(1.8); opacity: 0; }
     }
 
     .whatsapp-btn img {
@@ -265,8 +272,9 @@
       <img src="https://raw.githubusercontent.com/9481A24/Reyazulejista/main/WhatsApp_Image_2021-05-25_at_17.33.13_1.jpeg-1030x1030.jpg" alt="Painel e móveis de sala" />
     </div>
 
-    <div class="comentarios-container">
-      <div class="comentario">
+    <!-- Carrossel 1 -->
+    <div class="comentarios-container" id="carrossel1">
+      <div class="comentario ativo">
         <p>“Ficamos encantados com o projeto da cozinha! Cada detalhe pensado para o nosso espaço.”</p>
         <div class="cliente-info">
           <span>📞</span>
@@ -287,7 +295,37 @@
           <a href="tel:+5531996126215" class="telefone">(31) 99612-6215</a>
         </div>
       </div>
+      <button class="slide-btn prev">&#10094;</button>
+      <button class="slide-btn next">&#10095;</button>
     </div>
+
+    <!-- Carrossel 2 -->
+    <div class="comentarios-container" id="carrossel2">
+      <div class="comentario ativo">
+        <p>“Serviço rápido e muito bem feito. Recomendo para todos!”</p>
+        <div class="cliente-info">
+          <span>📞</span>
+          <a href="tel:+5531996126215" class="telefone">(31) 99543-9612</a>
+        </div>
+      </div>
+      <div class="comentario">
+        <p>“Profissionais competentes e simpáticos, deixaram nossa casa perfeita.”</p>
+        <div class="cliente-info">
+          <span>📞</span>
+          <a href="tel:+5531996126215" class="telefone">(31) 99543-9612</a>
+        </div>
+      </div>
+      <div class="comentario">
+        <p>“Muito capricho em cada detalhe, resultado impecável!”</p>
+        <div class="cliente-info">
+          <span>📞</span>
+          <a href="tel:+5531996126215" class="telefone">(31) 99543-9612</a>
+        </div>
+      </div>
+      <button class="slide-btn prev">&#10094;</button>
+      <button class="slide-btn next">&#10095;</button>
+    </div>
+
   </main>
 
   <!-- Botão WhatsApp com efeito onda -->
@@ -297,8 +335,47 @@
 
   <!-- Rodapé com CNPJ -->
   <footer class="rodape">
-    CNPJ:  59.711.008/0001-09 Deus Fiel
+    CNPJ: 59.711.008/0001-09 Deus Fiel
   </footer>
+
+  <script>
+    function criarCarrossel(containerId) {
+      const container = document.getElementById(containerId);
+      const comentarios = container.querySelectorAll('.comentario');
+      const prevBtn = container.querySelector('.slide-btn.prev');
+      const nextBtn = container.querySelector('.slide-btn.next');
+      let index = 0;
+
+      function mostrarComentario(novoIndex) {
+        comentarios.forEach((c) => c.classList.remove('ativo'));
+        comentarios[novoIndex].classList.add('ativo');
+        index = novoIndex;
+      }
+
+      prevBtn.addEventListener('click', () => {
+        let novoIndex = index - 1;
+        if(novoIndex < 0) novoIndex = comentarios.length - 1;
+        mostrarComentario(novoIndex);
+      });
+
+      nextBtn.addEventListener('click', () => {
+        let novoIndex = (index + 1) % comentarios.length;
+        mostrarComentario(novoIndex);
+      });
+
+      setInterval(() => {
+        let novoIndex = (index + 1) % comentarios.length;
+        mostrarComentario(novoIndex);
+      }, 5000);
+
+      mostrarComentario(index);
+    }
+
+    criarCarrossel('carrossel1');
+    criarCarrossel('carrossel2');
+  </script>
 
 </body>
 </html>
+
+      
